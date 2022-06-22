@@ -2,16 +2,24 @@ import React, { Component } from 'react';
 import { observer, inject } from 'mobx-react'
 
 class Reservation extends Component {
+
+    seat = () => {
+        this.props.RestaurantStore.seatRes(this.props.res.id)
+    }
+    complete = () => {
+        this.props.RestaurantStore.completeRes(this.props.res.id)
+    }
+
     render() {
         return (
-            <div></div>
-            //render the reservation data here
-            //make sure you store the ID somewhere so you can find the reservation
-            //use the class "conditional" to conditionally render completed reservations
-            //You should hav ea complete reservation button to complete the reservation
+            <div className={this.props.res.completed ? "conditional" : null}>
+                {this.props.res.name}
+                <button onClick={this.complete}>complete reservation</button>
+                <button onClick={this.seat}>seat reservation</button>
+            </div>
         )
     }
 }
 
 //inject your store here
-export default Reservation
+export default inject("RestaurantStore")(observer(Reservation))
